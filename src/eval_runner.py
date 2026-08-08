@@ -21,9 +21,6 @@ from .scoring import score_category_match, score_summary_quality
 
 RUNS_DIR = Path(__file__).resolve().parent.parent / "runs"
 
-# Concurrency just controls how many tasks are in-flight waiting on the
-# shared pacer (see classifier._pace_request) — the pacer is what actually
-# keeps us under Groq's RPM limit, so this can be higher than before.
 MAX_CONCURRENT_REQUESTS = 4
 
 
@@ -45,7 +42,6 @@ async def _run_single_case(case, prompt_config: PromptConfig, semaphore: asyncio
     }
 
     if output is None:
-        # Hard failure (API error, schema violation) — always a fail, skip judge call.
         result.update(
             actual_category=None,
             actual_summary=None,
@@ -59,10 +55,6 @@ async def _run_single_case(case, prompt_config: PromptConfig, semaphore: asyncio
     category_match = score_category_match(case.expected_category, output.category)
 
     if not category_match:
-        # Case already fails on the binary dimension — skip the judge call.
-        # Summary quality is irrelevant to a case that fails regardless,
-        # and this is the single biggest lever for cutting token spend
-        # on Groq's free tier (halves calls for every mismatched case).
         result.update(
             actual_category=output.category,
             actual_summary=output.summary,
@@ -81,15 +73,12 @@ async def _run_single_case(case, prompt_config: PromptConfig, semaphore: asyncio
         category_match=category_match,
         summary_score=summary_score,
         summary_score_reason=summary_reason,
-        # A case "passes" if category is exactly right AND summary quality
-        # is acceptable (>=3/5). Both dimensions matter — a right category
-        # with a nonsense summary still means something is broken.
         case_passed=summary_score >= 3,
     )
     return result
 
 
-async def run_eval(prompt_config: PromptConfig, dataset: GoldenDataset) -> dict:
+async def run_eval(prompt_config: PromptConfig, dataset: GoldenDataset, is_partial: bool = False) -> dict:
     """Run the full golden dataset through prompt_config and return the run record."""
     semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
     tasks = [_run_single_case(case, prompt_config, semaphore) for case in dataset.cases]
@@ -115,6 +104,7 @@ async def run_eval(prompt_config: PromptConfig, dataset: GoldenDataset) -> dict:
         "prompt_version": prompt_config.version_id,
         "model": prompt_config.model,
         "dataset_version": dataset.dataset_version,
+        "is_partial_run": is_partial,
         "total_cases": total,
         "pass_rate": passed / total if total else 0.0,
         "category_accuracy": category_correct / total if total else 0.0,
@@ -137,13 +127,19 @@ def save_run(run_record: dict) -> Path:
     return path
 
 
-def load_latest_run(exclude_run_id: str | None = None) -> dict | None:
-    """Find the most recent run in /runs, optionally excluding a specific run_id (the one just saved)."""
+def load_latest_run(exclude_run_id: str | None = None, include_partial: bool = False) -> dict | None:
+    """
+    Find the most recent FULL run in /runs — partial (--limit) runs are
+    excluded by default since they're dev sanity checks, not real baselines.
+    """
     RUNS_DIR.mkdir(exist_ok=True)
     run_files = sorted(RUNS_DIR.glob("*.json"))
     if exclude_run_id:
         run_files = [f for f in run_files if exclude_run_id not in f.name]
-    if not run_files:
-        return None
-    with run_files[-1].open("r", encoding="utf-8") as f:
-        return json.load(f)
+
+    for path in reversed(run_files):
+        with path.open("r", encoding="utf-8") as f:
+            record = json.load(f)
+        if include_partial or not record.get("is_partial_run", False):
+            return record
+    return None

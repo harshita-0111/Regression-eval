@@ -39,7 +39,7 @@ def build_slack_payload(run_record: dict, diff: RunDiff, report_url: str | None 
 def send_slack_alert(run_record: dict, diff: RunDiff, report_url: str | None = None) -> bool:
     """
     Returns True if the alert was sent successfully. Never raises —
-    a failed Slack post shouldn't fail the eval run or CI job itself.
+    a failed alert shouldn't fail the eval run or CI job itself.
     """
     webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
     if not webhook_url:
@@ -47,6 +47,30 @@ def send_slack_alert(run_record: dict, diff: RunDiff, report_url: str | None = N
         return False
 
     payload = build_slack_payload(run_record, diff, report_url)
+    return _post_json(webhook_url, payload)
+
+
+def send_discord_alert(run_record: dict, diff: RunDiff, report_url: str | None = None) -> bool:
+    """
+    Discord alternative to Slack — same webhook pattern, but Discord's
+    payload key is "content" instead of "text", and Discord doesn't
+    support Slack's <url|label> link syntax, so links go as plain text.
+    """
+    webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    if not webhook_url:
+        print("DISCORD_WEBHOOK_URL not set — skipping Discord alert.")
+        return False
+
+    slack_payload = build_slack_payload(run_record, diff, report_url)
+    # Discord doesn't support Slack's <url|label> syntax — convert to plain "label: url"
+    text = slack_payload["text"]
+    if report_url:
+        text = text.replace(f"<{report_url}|View full diff report>", f"View full diff report: {report_url}")
+
+    return _post_json(webhook_url, {"content": text})
+
+
+def _post_json(webhook_url: str, payload: dict) -> bool:
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         webhook_url, data=data, headers={"Content-Type": "application/json"}, method="POST"
@@ -55,5 +79,5 @@ def send_slack_alert(run_record: dict, diff: RunDiff, report_url: str | None = N
         with urllib.request.urlopen(req, timeout=10) as resp:
             return 200 <= resp.status < 300
     except urllib.error.URLError as e:
-        print(f"Slack alert failed: {e}")
+        print(f"Webhook alert failed: {e}")
         return False
