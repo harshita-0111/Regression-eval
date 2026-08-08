@@ -14,7 +14,7 @@ import json
 import os
 import time
 
-from openai import AsyncOpenAI, RateLimitError
+from openai import APIConnectionError, APITimeoutError, AsyncOpenAI, RateLimitError
 
 from .config import ClassificationInput, ClassificationOutput, PromptConfig
 
@@ -47,16 +47,18 @@ async def _pace_request() -> None:
 
 async def _call_with_retry(coro_fn, *args, **kwargs):
     """
-    Paces every request against the shared rate limiter, then retries
-    on RateLimitError with exponential backoff as a second line of
-    defense (e.g. other processes/orgs sharing the same key).
+    Paces every request against the shared rate limiter, then retries on
+    RateLimitError, APITimeoutError, and APIConnectionError with exponential
+    backoff — all three are transient infra failures (rate limit, slow
+    response, dropped connection), not real classifier failures, and
+    treating them differently would misclassify network noise as model bugs.
     """
     last_error: Exception | None = None
     for attempt in range(MAX_RETRIES):
         await _pace_request()
         try:
             return await coro_fn(*args, **kwargs)
-        except RateLimitError as e:
+        except (RateLimitError, APITimeoutError, APIConnectionError) as e:
             last_error = e
             wait = BASE_BACKOFF_SECONDS * (2 ** attempt)
             await asyncio.sleep(wait)
