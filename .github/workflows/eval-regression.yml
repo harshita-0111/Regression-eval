@@ -1,0 +1,55 @@
+name: LLM Eval Regression Check
+
+on:
+  pull_request:
+    paths:
+      - "prompts/**"
+      - "data/golden_dataset/**"
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run eval
+        id: run_eval
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python scripts/run_eval.py
+
+      - name: Post PR comment with eval results
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: eval_summary.md
+          edit-mode: replace
+
+      - name: Upload HTML report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: reports/*.html
+          retention-days: 30
+
+      - name: Fail job if eval failed
+        if: steps.run_eval.outcome == 'failure'
+        run: |
+          echo "Eval reported a critical regression — see PR comment for details."
+          exit 1
