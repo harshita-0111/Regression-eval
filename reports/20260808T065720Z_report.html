@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Eval Report — 20260808T065720Z</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #1f2328; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 16px; margin-top: 32px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+  .status-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; color: white; font-weight: 600; background: #cf222e; }
+  .scorecard { display: flex; gap: 24px; flex-wrap: wrap; margin: 16px 0; }
+  .metric { background: #f6f8fa; border-radius: 8px; padding: 12px 20px; min-width: 140px; }
+  .metric .label { font-size: 12px; color: #57606a; }
+  .metric .value { font-size: 22px; font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #d0d7de; padding: 6px 10px; text-align: left; }
+  th { background: #f6f8fa; }
+  code { background: #f6f8fa; padding: 2px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <h1>Eval Report — v1 <span class="status-badge">CRITICAL</span></h1>
+  <p>2026-08-08T06:57:20.792747+00:00 · model <code>llama-3.3-70b-versatile</code> · dataset <code>v1</code> · vs baseline <code>20260808T064828Z</code></p>
+
+  <div class="scorecard">
+    <div class="metric"><div class="label">Pass rate</div><div class="value">44.4%</div></div>
+    <div class="metric"><div class="label">Category accuracy</div><div class="value">44.4%</div></div>
+    <div class="metric"><div class="label">Pass rate Δ</div><div class="value">-48.1%</div></div>
+    <div class="metric"><div class="label">Avg latency</div><div class="value">15.1s</div></div>
+    <div class="metric"><div class="label">Tokens</div><div class="value">8220/726</div></div>
+  </div>
+
+  <h2>Per-category accuracy delta</h2>
+  <table><thead><tr><th>Category</th><th>Δ</th></tr></thead><tbody><tr><td>account</td><td>+0.0%</td></tr><tr><td>billing</td><td>-100.0%</td></tr><tr><td>general</td><td>-9.1%</td></tr><tr><td>technical</td><td>-58.8%</td></tr></tbody></table>
+
+  <h2>Trend — pass rate over last 7 runs</h2>
+  
+    <svg viewBox="0 0 600 120" width="100%" height="120">
+      <line x1="20" y1="20" x2="20" y2="100" stroke="#ccc" />
+      <line x1="20" y1="100" x2="580" y2="100" stroke="#ccc" />
+      <polyline points="20.0,77.8 113.3,27.4 206.7,27.4 300.0,42.2 393.3,25.9 486.7,25.9 580.0,64.4" fill="none" stroke="#2563eb" stroke-width="2" />
+      <circle cx="20.0" cy="77.8" r="3" fill="#2563eb" /><circle cx="113.3" cy="27.4" r="3" fill="#2563eb" /><circle cx="206.7" cy="27.4" r="3" fill="#2563eb" /><circle cx="300.0" cy="42.2" r="3" fill="#2563eb" /><circle cx="393.3" cy="25.9" r="3" fill="#2563eb" /><circle cx="486.7" cy="25.9" r="3" fill="#2563eb" /><circle cx="580.0" cy="64.4" r="3" fill="#2563eb" />
+    </svg>
+    
+
+  <h2>Regressions (27)</h2>
+  <table><thead><tr><th>Case</th><th>Expected</th><th>Was</th><th>Now</th><th>Old Summary</th><th>New Summary</th></tr></thead><tbody><tr><td>billing_001</td><td>billing</td><td>billing</td><td>None</td><td>Customer was double-charged $49.99 for the same subscription and requests a refund.</td><td>None</td></tr><tr><td>technical_001</td><td>technical</td><td>technical</td><td>None</td><td>App crashes when attempting to upload photos larger than 5MB on both wifi and mobile data connections.</td><td>None</td></tr><tr><td>account_001</td><td>account</td><td>account</td><td>None</td><td>Customer's account is suspended without known reason and they are unable to log in.</td><td>None</td></tr><tr><td>general_001</td><td>general</td><td>general</td><td>None</td><td>Customer inquires about the availability of an iOS app.</td><td>None</td></tr><tr><td>ambiguous_001</td><td>billing</td><td>billing</td><td>None</td><td>Customer paid for features but cannot access them.</td><td>None</td></tr><tr><td>short_001</td><td>technical</td><td>technical</td><td>None</td><td>Customer reports the app is broken and needs to be fixed.</td><td>None</td></tr><tr><td>sarcastic_001</td><td>billing</td><td>billing</td><td>None</td><td>Customer is disputing an unexpected charge on their account.</td><td>None</td></tr><tr><td>billing_002</td><td>billing</td><td>billing</td><td>None</td><td>Customer's payment failed likely due to an expired card and needs help updating their payment information.</td><td>None</td></tr><tr><td>billing_003</td><td>billing</td><td>billing</td><td>None</td><td>Customer claims to have cancelled their subscription but was still charged.</td><td>None</td></tr><tr><td>billing_004</td><td>billing</td><td>billing</td><td>None</td><td>Customer's invoice is higher than expected without any plan changes.</td><td>None</td></tr><tr><td>billing_005</td><td>billing</td><td>billing</td><td>None</td><td>Customer wants to switch from a monthly to an annual plan and inquires about a potential prorated credit.</td><td>None</td></tr><tr><td>billing_006</td><td>billing</td><td>billing</td><td>None</td><td>Customer has not received a refund 9 days after requesting it.</td><td>None</td></tr><tr><td>billing_007</td><td>billing</td><td>billing</td><td>None</td><td>Customer inquires about potential student discount for being a full-time student.</td><td>None</td></tr><tr><td>billing_008</td><td>billing</td><td>billing</td><td>None</td><td>Customer is inquiring about an unexpected $3.99 convenience fee on their receipt.</td><td>None</td></tr><tr><td>billing_009</td><td>billing</td><td>billing</td><td>None</td><td>Customer wants to schedule a plan downgrade to take effect at the start of the next billing cycle.</td><td>None</td></tr><tr><td>billing_010</td><td>billing</td><td>billing</td><td>None</td><td>Customer's payment was deducted but their subscription was not activated.</td><td>None</td></tr><tr><td>billing_011</td><td>billing</td><td>billing</td><td>None</td><td>Customer claims to be incorrectly charged for a plan they never subscribed to.</td><td>None</td></tr><tr><td>billing_012</td><td>billing</td><td>billing</td><td>None</td><td>Customer inquires about payment options, specifically asking about PayPal availability during checkout.</td><td>None</td></tr><tr><td>billing_013</td><td>billing</td><td>billing</td><td>None</td><td>Customer claims to have been charged again despite already paying.</td><td>None</td></tr><tr><td>technical_002</td><td>technical</td><td>technical</td><td>None</td><td>Search bar is not returning results for existing terms.</td><td>None</td></tr><tr><td>technical_003</td><td>technical</td><td>technical</td><td>None</td><td>Customer is experiencing a 502 error when trying to load their dashboard.</td><td>None</td></tr><tr><td>technical_004</td><td>technical</td><td>technical</td><td>None</td><td>Customer experiences video playback stuttering on Chrome but not Safari.</td><td>None</td></tr><tr><td>technical_005</td><td>technical</td><td>technical</td><td>None</td><td>Customer reports that notifications stopped working after the last update.</td><td>None</td></tr><tr><td>technical_006</td><td>technical</td><td>technical</td><td>None</td><td>Export to CSV button is unresponsive and fails to download files.</td><td>None</td></tr><tr><td>technical_007</td><td>technical</td><td>technical</td><td>None</td><td>Customer reports discrepancy between numbers on report page and exported data.</td><td>None</td></tr><tr><td>technical_008</td><td>technical</td><td>technical</td><td>None</td><td>Customer experiences frequent automatic logouts across multiple devices.</td><td>None</td></tr><tr><td>technical_009</td><td>technical</td><td>technical</td><td>None</td><td>Customer reports the site is down and timing out, inquiring about known issues.</td><td>None</td></tr></tbody></table>
+
+  <h2>Improvements (1)</h2>
+  <table><thead><tr><th>Case</th><th>Expected</th><th>Now</th></tr></thead><tbody><tr><td>account_013</td><td>account</td><td>account</td></tr></tbody></table>
+</body>
+</html>

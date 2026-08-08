@@ -1,0 +1,438 @@
+{
+  "dataset_version": "v1",
+  "description": "Golden dataset for the customer support email classifier. Hand-labeled test cases across billing, technical, account, and general categories, including edge cases (ambiguous, short, sarcastic, typo'd, mixed-language).",
+  "cases": [
+    {
+      "case_id": "billing_001",
+      "input_email": "I was charged $49.99 twice on my card this month for the same subscription. Please refund the duplicate charge.",
+      "expected_category": "billing",
+      "expected_summary": "Customer reports a duplicate subscription charge and requests a refund.",
+      "difficulty": "easy",
+      "notes": "Clean, unambiguous billing case. Baseline sanity check."
+    },
+    {
+      "case_id": "technical_001",
+      "input_email": "Every time I try to upload a photo over 5MB the app crashes and closes completely. Happens on both wifi and mobile data.",
+      "expected_category": "technical",
+      "expected_summary": "App crashes when uploading photos larger than 5MB, regardless of network type.",
+      "difficulty": "easy",
+      "notes": "Clean technical bug report."
+    },
+    {
+      "case_id": "account_001",
+      "input_email": "I try to log in and it says my account has been suspended. I have no idea why, I haven't done anything wrong.",
+      "expected_category": "account",
+      "expected_summary": "Customer's account is suspended and they don't know why.",
+      "difficulty": "easy",
+      "notes": "Clean account-access case."
+    },
+    {
+      "case_id": "general_001",
+      "input_email": "Hey, quick question \u2014 do you guys have an iOS app or is it web only?",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking whether an iOS app exists.",
+      "difficulty": "easy",
+      "notes": "Pre-sales/info question, no issue to resolve."
+    },
+    {
+      "case_id": "ambiguous_001",
+      "input_email": "I can't access my paid features even though I definitely paid last week.",
+      "expected_category": "billing",
+      "expected_summary": "Customer paid but can't access the paid features they purchased.",
+      "difficulty": "ambiguous",
+      "notes": "Could be account (access) or billing (payment). Labeled billing since root cause is payment processing."
+    },
+    {
+      "case_id": "short_001",
+      "input_email": "app broken. fix pls.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports the app is broken without further detail.",
+      "difficulty": "hard",
+      "notes": "Extremely short, no specifics."
+    },
+    {
+      "case_id": "sarcastic_001",
+      "input_email": "Oh great, another month, another mystery charge I definitely didn't agree to. Love that for me.",
+      "expected_category": "billing",
+      "expected_summary": "Customer sarcastically complains about an unexpected charge they don't recall agreeing to.",
+      "difficulty": "hard",
+      "notes": "Sarcastic tone."
+    },
+    {
+      "case_id": "typo_001",
+      "input_email": "hii i cant resset my pasword the emial never comes thru pls halp",
+      "expected_category": "technical",
+      "expected_summary": "Customer can't reset their password because the reset email never arrives.",
+      "difficulty": "medium",
+      "notes": "Relabeled from ambiguous root-cause reasoning: email delivery failure is the root cause blocking login, not an account-management issue. Category = what team would fix the root cause, not what the customer is blocked from doing."
+    },
+    {
+      "case_id": "billing_002",
+      "input_email": "My card on file expired last week and I think that's why my payment failed, but I'm not sure how to update it.",
+      "expected_category": "billing",
+      "expected_summary": "Customer's payment failed likely due to an expired card and they need help updating it.",
+      "difficulty": "easy",
+      "notes": "Standard payment method update request."
+    },
+    {
+      "case_id": "billing_003",
+      "input_email": "I cancelled my subscription last month but you guys billed me again anyway. This needs to be fixed immediately.",
+      "expected_category": "billing",
+      "expected_summary": "Customer was billed after cancelling their subscription and wants it corrected.",
+      "difficulty": "easy",
+      "notes": "Cancellation-billing mismatch."
+    },
+    {
+      "case_id": "billing_004",
+      "input_email": "Can you explain why my invoice this month is $12 higher than usual? I didn't change my plan.",
+      "expected_category": "billing",
+      "expected_summary": "Customer wants an explanation for an unexpected increase in their invoice amount.",
+      "difficulty": "easy",
+      "notes": "Invoice discrepancy question."
+    },
+    {
+      "case_id": "billing_005",
+      "input_email": "I want to switch from the monthly plan to the annual plan. Will I get a prorated credit for the time left on my current plan?",
+      "expected_category": "billing",
+      "expected_summary": "Customer wants to switch plans and is asking about proration.",
+      "difficulty": "medium",
+      "notes": "Plan-change + proration question."
+    },
+    {
+      "case_id": "billing_006",
+      "input_email": "Refund status? Requested one 9 days ago, nothing yet.",
+      "expected_category": "billing",
+      "expected_summary": "Customer is following up on a refund requested 9 days ago that hasn't arrived.",
+      "difficulty": "medium",
+      "notes": "Short, terse follow-up."
+    },
+    {
+      "case_id": "billing_007",
+      "input_email": "Is there a student discount available? I'm currently enrolled full-time and would love to save a bit if possible.",
+      "expected_category": "billing",
+      "expected_summary": "Customer is asking whether a student discount is available.",
+      "difficulty": "ambiguous",
+      "notes": "Could be general (pre-sales) or billing (pricing). Labeled billing \u2014 good disagreement case."
+    },
+    {
+      "case_id": "billing_008",
+      "input_email": "why is there a $3.99 charge labeled 'convenience fee' on my receipt, nobody told me about this",
+      "expected_category": "billing",
+      "expected_summary": "Customer is questioning an unexplained convenience fee on their receipt.",
+      "difficulty": "medium",
+      "notes": "Fee transparency complaint."
+    },
+    {
+      "case_id": "billing_009",
+      "input_email": "I'd like to downgrade my plan starting next billing cycle, not immediately. How do I schedule that?",
+      "expected_category": "billing",
+      "expected_summary": "Customer wants to schedule a plan downgrade for the next billing cycle.",
+      "difficulty": "easy",
+      "notes": "Plan management, scheduling nuance."
+    },
+    {
+      "case_id": "billing_010",
+      "input_email": "mera paisa kat gaya but subscription active nahi hua, please check",
+      "expected_category": "billing",
+      "expected_summary": "Customer's payment was deducted but the subscription was not activated.",
+      "difficulty": "hard",
+      "notes": "Mixed Hindi-English (Hinglish)."
+    },
+    {
+      "case_id": "billing_011",
+      "input_email": "You people keep charging me for a plan I never signed up for. This is honestly starting to feel like fraud at this point.",
+      "expected_category": "billing",
+      "expected_summary": "Customer believes they're being charged for a plan they never subscribed to and suspects fraud.",
+      "difficulty": "medium",
+      "notes": "High emotional intensity, accusatory tone."
+    },
+    {
+      "case_id": "billing_012",
+      "input_email": "Do you accept PayPal, or only credit cards? Trying to check out but don't see the option.",
+      "expected_category": "billing",
+      "expected_summary": "Customer is asking about accepted payment methods, specifically PayPal.",
+      "difficulty": "easy",
+      "notes": "Payment method availability question."
+    },
+    {
+      "case_id": "billing_013",
+      "input_email": "$$$ WHY DID YOU CHARGE ME AGAIN I ALREADY PAID !!!",
+      "expected_category": "billing",
+      "expected_summary": "Customer is upset about being charged again after already paying.",
+      "difficulty": "medium",
+      "notes": "All-caps, high urgency/anger."
+    },
+    {
+      "case_id": "technical_002",
+      "input_email": "The search bar has stopped returning any results for the last two days, even for terms that definitely exist.",
+      "expected_category": "technical",
+      "expected_summary": "Search functionality has stopped returning results for the past two days.",
+      "difficulty": "easy",
+      "notes": "Clear functional bug report."
+    },
+    {
+      "case_id": "technical_003",
+      "input_email": "getting a 502 error every time I try to load my dashboard since this morning",
+      "expected_category": "technical",
+      "expected_summary": "Customer is getting a 502 error loading their dashboard since this morning.",
+      "difficulty": "easy",
+      "notes": "Specific error code, timestamped."
+    },
+    {
+      "case_id": "technical_004",
+      "input_email": "Video playback is stuttering badly on Chrome but works fine on Safari. Same wifi, same laptop.",
+      "expected_category": "technical",
+      "expected_summary": "Video playback stutters on Chrome but not Safari, on the same device and network.",
+      "difficulty": "easy",
+      "notes": "Browser-specific bug."
+    },
+    {
+      "case_id": "technical_005",
+      "input_email": "notifications stopped working after the last update, i used to get them instantly now nothing",
+      "expected_category": "technical",
+      "expected_summary": "Notifications stopped working after the most recent app update.",
+      "difficulty": "easy",
+      "notes": "Post-update regression."
+    },
+    {
+      "case_id": "technical_006",
+      "input_email": "export to CSV button just spins forever and never downloads anything, tried 3 different files",
+      "expected_category": "technical",
+      "expected_summary": "The CSV export feature spins indefinitely without downloading, across multiple files.",
+      "difficulty": "easy",
+      "notes": "Specific feature failure with reproduction attempts noted."
+    },
+    {
+      "case_id": "technical_007",
+      "input_email": "not sure if this is a bug or just how it works but the numbers on my report page don't match what's on the export",
+      "expected_category": "technical",
+      "expected_summary": "Customer noticed a data mismatch between the report page and the exported file.",
+      "difficulty": "medium",
+      "notes": "Self-uncertain framing."
+    },
+    {
+      "case_id": "technical_008",
+      "input_email": "app keeps logging me out every few minutes, super annoying, happens on both my phone and laptop",
+      "expected_category": "technical",
+      "expected_summary": "The app repeatedly logs the customer out every few minutes on multiple devices.",
+      "difficulty": "ambiguous",
+      "notes": "Could be account (session) or technical (bug). Labeled technical \u2014 good disagreement case."
+    },
+    {
+      "case_id": "technical_009",
+      "input_email": "the site is down for me, keeps timing out, is this a known issue on your end?",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports the site is timing out and asks if it's a known outage.",
+      "difficulty": "easy",
+      "notes": "Outage/downtime report."
+    },
+    {
+      "case_id": "technical_010",
+      "input_email": "site loading soooo slow today literally taking like 30 sec per page wat is going on",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports the site is loading extremely slowly, around 30 seconds per page.",
+      "difficulty": "medium",
+      "notes": "Casual/informal phrasing with exaggeration."
+    },
+    {
+      "case_id": "technical_011",
+      "input_email": "app crash karta hai jab bhi main settings open karta hoon, please fix",
+      "expected_category": "technical",
+      "expected_summary": "The app crashes whenever the customer tries to open settings.",
+      "difficulty": "hard",
+      "notes": "Hinglish mixed-language bug report."
+    },
+    {
+      "case_id": "technical_012",
+      "input_email": "dark mode toggle doesn't actually change anything, screen stays white no matter what I click",
+      "expected_category": "technical",
+      "expected_summary": "The dark mode toggle does not change the app's appearance.",
+      "difficulty": "easy",
+      "notes": "UI bug, non-functional feature."
+    },
+    {
+      "case_id": "technical_013",
+      "input_email": "broke. again. third time this week. fix your app.",
+      "expected_category": "technical",
+      "expected_summary": "Customer reports the app has broken for the third time this week.",
+      "difficulty": "hard",
+      "notes": "Extremely terse, frustrated tone."
+    },
+    {
+      "case_id": "account_002",
+      "input_email": "I forgot which email I used to sign up and now I can't log in. Is there a way to recover it?",
+      "expected_category": "account",
+      "expected_summary": "Customer forgot the email associated with their account and needs recovery help.",
+      "difficulty": "easy",
+      "notes": "Standard account recovery request."
+    },
+    {
+      "case_id": "account_003",
+      "input_email": "How do I change my display name? I got married and want to update it to my new last name.",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to update their display name to reflect a legal name change.",
+      "difficulty": "easy",
+      "notes": "Profile settings request."
+    },
+    {
+      "case_id": "account_004",
+      "input_email": "someone else logged into my account, I see activity I didn't do, please help me secure it asap",
+      "expected_category": "account",
+      "expected_summary": "Customer suspects unauthorized access to their account and wants it secured urgently.",
+      "difficulty": "easy",
+      "notes": "Security incident, high urgency."
+    },
+    {
+      "case_id": "account_005",
+      "input_email": "I want to permanently delete my account and all my data. How do I do that?",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to permanently delete their account and associated data.",
+      "difficulty": "easy",
+      "notes": "Account deletion / data request."
+    },
+    {
+      "case_id": "account_006",
+      "input_email": "two factor authentication isn't sending codes to my phone anymore, I'm locked out",
+      "expected_category": "technical",
+      "expected_summary": "Customer is locked out because two-factor authentication codes aren't being sent to their phone.",
+      "difficulty": "ambiguous",
+      "notes": "Relabeled: 2FA code delivery failure is the root cause, not an account-access setting. Consistent with typo_001 and account_011 \u2014 all are delivery/infra bugs that happen to block access."
+    },
+    {
+      "case_id": "account_007",
+      "input_email": "can i merge my two accounts into one? I accidentally signed up twice with different emails",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to merge two accidentally created accounts into one.",
+      "difficulty": "medium",
+      "notes": "Account management edge case."
+    },
+    {
+      "case_id": "account_008",
+      "input_email": "meri profile pic change nahi ho rahi, upload karte hi error aa jata hai",
+      "expected_category": "account",
+      "expected_summary": "Customer's profile picture won't update; an error appears every time they try to upload.",
+      "difficulty": "hard",
+      "notes": "Hinglish. Arguably technical (upload error) vs account (profile mgmt)."
+    },
+    {
+      "case_id": "account_009",
+      "input_email": "pls remove my number from the account i sold my phone and someone else has it now",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to remove their old phone number from the account after selling the device.",
+      "difficulty": "medium",
+      "notes": "Security-adjacent request, informal phrasing."
+    },
+    {
+      "case_id": "account_010",
+      "input_email": "wait why does it say i have a free trial active, i thought i already used mine last year??",
+      "expected_category": "account",
+      "expected_summary": "Customer is confused about a free trial appearing active when they believe they already used it.",
+      "difficulty": "ambiguous",
+      "notes": "Could be billing (trial/subscription state) or account (status confusion)."
+    },
+    {
+      "case_id": "account_011",
+      "input_email": "not receiving ANY emails from you guys anymore, not even the reset ones, checked spam already",
+      "expected_category": "technical",
+      "expected_summary": "Customer isn't receiving any emails, including password reset emails, and has checked spam.",
+      "difficulty": "hard",
+      "notes": "Relabeled: missing emails (including reset emails) is a delivery/infra bug, same root-cause pattern as typo_001 and account_006."
+    },
+    {
+      "case_id": "account_012",
+      "input_email": "just checking, does deleting the app also delete my account or is my data still saved somewhere?",
+      "expected_category": "account",
+      "expected_summary": "Customer wants to know whether deleting the app also deletes their account and data.",
+      "difficulty": "medium",
+      "notes": "Informational question about account/data persistence."
+    },
+    {
+      "case_id": "account_013",
+      "input_email": "cant login. tried everything. nothing works.",
+      "expected_category": "account",
+      "expected_summary": "Customer cannot log in despite trying multiple troubleshooting steps.",
+      "difficulty": "hard",
+      "notes": "Vague, no specifics on what 'tried everything' means."
+    },
+    {
+      "case_id": "general_002",
+      "input_email": "What are your customer support hours? Trying to figure out when I can call in.",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking about customer support hours.",
+      "difficulty": "easy",
+      "notes": "Basic informational query."
+    },
+    {
+      "case_id": "general_003",
+      "input_email": "Do you have an affiliate or referral program? I'd love to recommend this to my audience.",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking whether an affiliate or referral program exists.",
+      "difficulty": "easy",
+      "notes": "Pre-sales/partnership inquiry."
+    },
+    {
+      "case_id": "general_004",
+      "input_email": "Just wanted to say the new update looks great, really enjoying the redesign!",
+      "expected_category": "general",
+      "expected_summary": "Customer is giving positive feedback about the recent redesign.",
+      "difficulty": "medium",
+      "notes": "Positive, no-action-needed feedback."
+    },
+    {
+      "case_id": "general_005",
+      "input_email": "Is this platform GDPR compliant? Need to confirm for my company's procurement review.",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking about GDPR compliance for a procurement review.",
+      "difficulty": "medium",
+      "notes": "B2B/compliance question, formal register."
+    },
+    {
+      "case_id": "general_006",
+      "input_email": "do u have api docs somewhere? cant find them on the site",
+      "expected_category": "general",
+      "expected_summary": "Customer is looking for API documentation and can't find it on the site.",
+      "difficulty": "easy",
+      "notes": "Casual phrasing, developer-facing question."
+    },
+    {
+      "case_id": "general_007",
+      "input_email": "kya aap log Hindi support bhi dete ho?",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking whether Hindi-language support is available.",
+      "difficulty": "hard",
+      "notes": "Fully in Hinglish. Tests non-English handling."
+    },
+    {
+      "case_id": "general_008",
+      "input_email": "just curious, how many users does this platform have? saw a stat somewhere but wasn't sure if current",
+      "expected_category": "general",
+      "expected_summary": "Customer is asking about the platform's current user count.",
+      "difficulty": "easy",
+      "notes": "Curiosity-driven informational question."
+    },
+    {
+      "case_id": "general_009",
+      "input_email": "thx for the quick help earlier, appreciate it!! no further issue just wanted to say thanks",
+      "expected_category": "general",
+      "expected_summary": "Customer is expressing thanks for previous help, with no open issue.",
+      "difficulty": "medium",
+      "notes": "No actionable request at all."
+    },
+    {
+      "case_id": "general_010",
+      "input_email": "?",
+      "expected_category": "general",
+      "expected_summary": "Customer sent an email with no discernible content or request.",
+      "difficulty": "hard",
+      "notes": "Degenerate/empty-ish input. Flag if model hallucinates a specific issue."
+    },
+    {
+      "case_id": "general_011",
+      "input_email": "loved the podcast episode you guys did about the product roadmap, when's the next one coming out?",
+      "expected_category": "general",
+      "expected_summary": "Customer enjoyed the company's podcast episode and is asking when the next one releases.",
+      "difficulty": "medium",
+      "notes": "Off-topic-adjacent, brand engagement rather than product issue."
+    }
+  ]
+}

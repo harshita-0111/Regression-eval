@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Eval Report — 20260808T064828Z</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #1f2328; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 16px; margin-top: 32px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+  .status-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; color: white; font-weight: 600; background: #1a7f37; }
+  .scorecard { display: flex; gap: 24px; flex-wrap: wrap; margin: 16px 0; }
+  .metric { background: #f6f8fa; border-radius: 8px; padding: 12px 20px; min-width: 140px; }
+  .metric .label { font-size: 12px; color: #57606a; }
+  .metric .value { font-size: 22px; font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #d0d7de; padding: 6px 10px; text-align: left; }
+  th { background: #f6f8fa; }
+  code { background: #f6f8fa; padding: 2px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <h1>Eval Report — v1 <span class="status-badge">OK</span></h1>
+  <p>2026-08-08T06:48:28.714946+00:00 · model <code>llama-3.3-70b-versatile</code> · dataset <code>v1</code> · vs baseline <code>20260801T075004Z</code></p>
+
+  <div class="scorecard">
+    <div class="metric"><div class="label">Pass rate</div><div class="value">92.6%</div></div>
+    <div class="metric"><div class="label">Category accuracy</div><div class="value">92.6%</div></div>
+    <div class="metric"><div class="label">Pass rate Δ</div><div class="value">+0.0%</div></div>
+    <div class="metric"><div class="label">Avg latency</div><div class="value">15.0s</div></div>
+    <div class="metric"><div class="label">Tokens</div><div class="value">17166/1505</div></div>
+  </div>
+
+  <h2>Per-category accuracy delta</h2>
+  <table><thead><tr><th>Category</th><th>Δ</th></tr></thead><tbody><tr><td>account</td><td>-9.1%</td></tr><tr><td>billing</td><td>+0.0%</td></tr><tr><td>general</td><td>+9.1%</td></tr><tr><td>technical</td><td>+0.0%</td></tr></tbody></table>
+
+  <h2>Trend — pass rate over last 6 runs</h2>
+  
+    <svg viewBox="0 0 600 120" width="100%" height="120">
+      <line x1="20" y1="20" x2="20" y2="100" stroke="#ccc" />
+      <line x1="20" y1="100" x2="580" y2="100" stroke="#ccc" />
+      <polyline points="20.0,77.8 132.0,27.4 244.0,27.4 356.0,42.2 468.0,25.9 580.0,25.9" fill="none" stroke="#2563eb" stroke-width="2" />
+      <circle cx="20.0" cy="77.8" r="3" fill="#2563eb" /><circle cx="132.0" cy="27.4" r="3" fill="#2563eb" /><circle cx="244.0" cy="27.4" r="3" fill="#2563eb" /><circle cx="356.0" cy="42.2" r="3" fill="#2563eb" /><circle cx="468.0" cy="25.9" r="3" fill="#2563eb" /><circle cx="580.0" cy="25.9" r="3" fill="#2563eb" />
+    </svg>
+    
+
+  <h2>Regressions (1)</h2>
+  <table><thead><tr><th>Case</th><th>Expected</th><th>Was</th><th>Now</th><th>Old Summary</th><th>New Summary</th></tr></thead><tbody><tr><td>account_013</td><td>account</td><td>account</td><td>technical</td><td>Customer is unable to log in despite trying various methods.</td><td>Customer is unable to log in despite trying various methods.</td></tr></tbody></table>
+
+  <h2>Improvements (1)</h2>
+  <table><thead><tr><th>Case</th><th>Expected</th><th>Now</th></tr></thead><tbody><tr><td>general_006</td><td>general</td><td>general</td></tr></tbody></table>
+</body>
+</html>
