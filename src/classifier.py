@@ -75,7 +75,7 @@ def _get_client() -> AsyncOpenAI:
         api_key = os.environ.get("GROQ_API_KEY")
         if not api_key:
             raise RuntimeError("GROQ_API_KEY environment variable is not set")
-        _client = AsyncOpenAI(api_key=api_key, base_url=GROQ_BASE_URL)
+        _client = AsyncOpenAI(api_key=api_key, base_url=GROQ_BASE_URL, timeout=30.0)
     return _client
 
 
